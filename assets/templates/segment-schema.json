@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "frame-forge-segment-schema-v1",
+  "title": "FrameForge Segment Schema v1",
+  "description": "FrameForge 图锁·笑剧引擎 分镜 JSON Schema,validator.py 据此校验。",
+  "type": "object",
+  "required": ["schema_version", "master_image", "total_duration", "visual_lock", "cast", "storyline", "segments"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "master_image": { "type": "string", "description": "参考图引用(文件路径或说明)" },
+    "total_duration": { "type": "number", "minimum": 5, "maximum": 300 },
+    "visual_lock": {
+      "type": "object",
+      "required": ["color", "texture", "space_rule"],
+      "properties": {
+        "color": { "type": "string" },
+        "texture": { "type": "string" },
+        "space_rule": { "type": "string" }
+      }
+    },
+    "cast": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["id", "role", "voice"],
+        "properties": {
+          "id": { "type": "string" },
+          "role": { "type": "string" },
+          "voice": { "type": "string" }
+        }
+      }
+    },
+    "storyline": { "type": "string" },
+    "segments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "timecode", "function", "lens", "shot_size", "camera", "action", "sfx", "visual_note"],
+        "properties": {
+          "id": { "type": "integer" },
+          "timecode": { "type": "string", "pattern": "^\\d{2}:\\d{2}-\\d{2}:\\d{2}$" },
+          "function": { "type": "string" },
+          "lens": { "type": "string" },
+          "shot_size": { "type": "string" },
+          "camera": { "type": "string" },
+          "action": { "type": "array", "items": { "type": "string" } },
+          "dialogue": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["who", "text"],
+              "properties": {
+                "who": { "type": "string" },
+                "text": { "type": "string" },
+                "interrupt": { "type": "string" }
+              }
+            }
+          },
+          "sfx": { "type": "string" },
+          "visual_note": { "type": "string" }
+        }
+      }
+    }
+  }
+}
